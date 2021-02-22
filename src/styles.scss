@@ -1,0 +1,40 @@
+body {
+  background-color: #424242;
+}
+
+.App {
+  font-family: sans-serif;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+}
+
+h1 {
+  text-align: center;
+  color: #fff;
+  font: 25px Courier New, monospace;
+}
+
+.films-list {
+  display: flex;
+  color: #fff;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 20px;
+  box-sizing: border-box;
+  font-size: 20px;
+
+  &-item {
+    flex-basis: 0;
+    flex-grow: 1;
+    border: 1px solid #000;
+    background-color: #555;
+    margin: 10px;
+    height: 200px;
+  }
+}
+
+.footer {
+  color: #f65261;
+}

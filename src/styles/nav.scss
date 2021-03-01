@@ -1,0 +1,20 @@
+.nav {
+  display: flex;
+  padding: 20px 0;
+
+  &-container {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 2px solid $grey;
+    margin: 0 40px;
+    padding: 10px 0;
+  }
+
+  &-item {
+    text-transform: uppercase;
+    color: $white;
+    text-decoration: none;
+    margin-right: 30px;
+    font-size: 20px;
+  }
+}

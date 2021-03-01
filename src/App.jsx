@@ -1,14 +1,32 @@
-import "./styles.scss";
-import React from 'react';
+import "./styles/app.scss";
+import React from "react";
+import Header from "./components/Header";
+import SearchBox from "./containers/SearchBox";
+import Sort from "./containers/Sort";
+import Navigation from "./containers/Navigation";
+import MoviesList from "./containers/MoviesList";
+import Footer from "./components/Footer";
+import ErrorBoundary from "./utils/ErrorBoundary"
 
 export default function App() {
-
-    const header = React.createElement("h1", null, "My first reactJS app");
-
     return (
         <div className="App">
-            <h1>Hello World</h1>
-            {header}
+            <div className="top-section">
+                <Header />
+                <ErrorBoundary>
+                    <SearchBox />
+                </ErrorBoundary>
+            </div>
+            <div className="nav-container">
+                <Navigation />
+                <ErrorBoundary>
+                    <Sort />
+                </ErrorBoundary>
+            </div>
+            <ErrorBoundary>
+                <MoviesList/>
+            </ErrorBoundary>
+            <Footer/>
         </div>
     );
 }

@@ -1,0 +1,37 @@
+body {
+  background-color: $grey;
+}
+
+.App {
+  font-family: sans-serif;
+  text-align: center;
+  background-color: rgba($black, 0.8);
+  color: $white;
+}
+
+h1 {
+  text-align: center;
+  color: $white;
+  font: 25px Courier New, monospace;
+}
+
+.logo {
+  margin: 50px 0 0 50px;
+}
+
+.add-movie-button {
+  margin: 50px 50px 0 0;
+  color: $brand-primary;
+  font-size: 20px;
+  background-color: rgba($grey-light, 0.2);
+  padding: 10px 25px;
+  border-radius: 3px;
+  height: 27px;
+  text-decoration: none;
+}
+
+.footer {
+  color: $brand-primary;
+  background: $grey;
+  padding: 30px 0;
+}

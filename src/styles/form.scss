@@ -1,0 +1,50 @@
+.form {
+
+  &__field {
+
+    &-label {
+      display: block;
+      padding: 10px 0;
+      font-size: 18px;
+      text-transform: uppercase;
+      color: $brand-primary;
+    }
+
+    &-input, &-select {
+      width: 100%;
+      background: $grey-dark;
+      color: $white;
+      border: none;
+      padding: 15px 5px;
+      box-sizing: border-box;
+      font-size: 22px;
+      line-height: 25px;
+      border-radius: 3px;
+      outline: none;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 30px;
+  }
+
+  &__button {
+    display: flex;
+    background: $brand-primary;
+    color: $white;
+    border-radius: 3px;
+    text-decoration: none;
+    line-height: 50px;
+    padding: 0 40px;
+    text-transform: uppercase;
+    margin-left: 10px;
+
+    &--reset {
+      background: $grey-darker;
+      border: 1px solid $brand-primary;
+      color: $brand-primary;
+    }
+  }
+}

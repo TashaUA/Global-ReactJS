@@ -1,0 +1,49 @@
+.dialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+
+  &__container {
+    position: fixed;
+    text-align: left;
+    background: $grey-darker;
+    width: 60%;
+    height: auto;
+    max-height: 90vh;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: $white;
+    padding: 50px;
+    overflow: auto;
+    box-sizing: border-box;
+  }
+
+  &__title {
+    font-size: 30px;
+    padding: 1rem;
+    margin: 0;
+    text-transform: uppercase;
+    font-weight: 100;
+    letter-spacing: 2px;
+  }
+
+  &__content {
+    padding: 1rem;
+  }
+
+  &__close {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    font-size: 30px;
+
+    &:after {
+      content: 'X';
+    }
+  }
+}
+

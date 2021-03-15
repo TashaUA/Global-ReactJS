@@ -24,16 +24,12 @@ const NavData = [
     }
 ];
 
-class Navigation extends React.Component {
-    render() {
-        return (
-            <nav className="nav">
-                {NavData.map((el) => (
-                    <NavigationItem key={el.id} id={el.id} name={el.name} />
-                ))}
-            </nav>
-        );
-    }
+export default function Navigation() {
+    return (
+        <nav className="nav">
+            {NavData.map((el) => (
+                <NavigationItem key={el.id} id={el.id} name={el.name}/>
+            ))}
+        </nav>
+    );
 }
-
-export default Navigation;

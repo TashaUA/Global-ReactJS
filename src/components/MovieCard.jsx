@@ -19,8 +19,10 @@ export default function MovieCard(props) {
                 <span>{release_date.split('-')[0]}</span>
             </p>
             {genres.join(", ")}
-            <Button onClick={() => openDialog('edit')} title="Edit"/>
-            <Button onClick={() => openDialog('delete')} title="Delete"/>
+            <p className="actions">
+                <Button classModifier="button--grey button--small" onClick={() => openDialog('edit')} title="Edit"/>
+                <Button classModifier="button--grey button--small" onClick={() => openDialog('delete')} title="Delete"/>
+            </p>
         </li>
     )
 }

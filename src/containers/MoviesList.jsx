@@ -9,7 +9,7 @@ export default function MoviesList(props) {
             <MoviesAmount amount={MoviesData.length}/>
             <ul className="movies-list">
                 {MoviesData.slice(0, 6).map((el) => (
-                    <MovieCard key={el.id} entry={el} handleOpenDialog={props.handleOpenDialog}/>
+                    <MovieCard key={el.id} entry={el} onClick={props.onClick} handleOpenDialog={props.handleOpenDialog}/>
                 ))}
             </ul>
         </>

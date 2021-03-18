@@ -23,7 +23,7 @@ export default function MovieExtendedCard(props) {
                 </p>
                 <p className="movie-extended-card__info-overview">{overview}</p>
                 {genres.join(", ")}
-                <p class="actions">
+                <p className="actions">
                     <Button classModifier="button--grey button--small" onClick={() => openDialog('edit')} title="Edit"/>
                     <Button classModifier="button--grey button--small" onClick={() => openDialog('delete')} title="Delete"/>
                 </p>

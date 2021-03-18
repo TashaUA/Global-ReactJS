@@ -4,15 +4,20 @@ import defaultImg from "../images/coming-soon.png";
 import Button from "./Button";
 
 export default function MovieCard(props) {
-    const { poster_path, title, release_date, genres } = props.entry;
+    const { poster_path, title, release_date, genres, id } = props.entry;
 
     const openDialog = (type) => {
         const { entry, handleOpenDialog } = props;
         handleOpenDialog({ entry, type });
     };
 
+    const onClick = (id) => {
+        const { onClick } = props;
+        onClick(id);
+    };
+
     return (
-        <li className="movie-card">
+        <li className="movie-card" onClick={() => onClick(id)}>
             <img src={poster_path ? poster_path : defaultImg} />
             <p className="movie-card__title">
                 <span>{title}</span>

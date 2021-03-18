@@ -27,7 +27,7 @@ export default function AddEditMovie(props) {
 
     useEffect(() => {
         const {entry = []} = props;
-        setMovie({...entry});
+        setMovie({...movie, ...entry});
         setIsEdit(!!props.entry);
     }, [props]);
 
@@ -50,7 +50,7 @@ export default function AddEditMovie(props) {
 
         setMovie({
             ...movie,
-            [event.target.name]: event.target.value
+            [name]: value
         });
     };
 

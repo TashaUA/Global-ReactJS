@@ -16,6 +16,7 @@ export default function App() {
     const [entry, setEntry] = useState({});
     const [openEdit, setOpenEdit] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
+    const [selectedMovie, setSelectedMovie] = useState(0);
 
     const handleOpenDialog = useCallback(({entry, type}) => {
         setEntry({...entry});
@@ -26,14 +27,22 @@ export default function App() {
         (type === DialogNames.EDIT) ? setOpenEdit(false) : setOpenDelete(false);
     },[]);
 
+    const onCLick = useCallback((id) => {
+        setSelectedMovie(id);
+        window.scrollTo(0, 0);
+    });
+
     return (
         <div className="App">
             <div className="top-section">
                 <Header />
-              {/*  <ErrorBoundary>
-                    <SearchBox />
-                </ErrorBoundary>*/}
-                <MoviePage handleOpenDialog={handleOpenDialog}/>
+                {selectedMovie ?
+                    <MoviePage selectedMovie={selectedMovie} handleOpenDialog={handleOpenDialog}/>
+                    :
+                    <ErrorBoundary>
+                        <SearchBox/>
+                    </ErrorBoundary>
+                }
             </div>
             <div className="nav-container">
                 <Navigation />
@@ -42,7 +51,7 @@ export default function App() {
                 </ErrorBoundary>
             </div>
             <ErrorBoundary>
-                <MoviesList handleOpenDialog={handleOpenDialog}/>
+                <MoviesList onClick={onCLick} handleOpenDialog={handleOpenDialog}/>
             </ErrorBoundary>
             <Footer/>
             <AddEditMovieDialog entry={entry} openEdit={openEdit} onCloseDialog={() => handleClose(DialogNames.EDIT)}/>

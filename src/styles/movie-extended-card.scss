@@ -1,0 +1,45 @@
+.movie-extended-card {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  margin: 20px 50px;
+
+  &__info {
+    padding-left: 50px;
+    text-align: left;
+
+    &-title {
+      font-size: 50px;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+    }
+
+    &-rating {
+      border-radius: 60px;
+      border: 1px solid $white;
+      color: $green;
+      width: 60px;
+      height: 60px;
+      font-size: 22px;
+      line-height: 60px;
+      display: flex;
+      justify-content: center;
+      margin-left: 20px;
+    }
+
+    &-date {
+      color: $brand-primary;
+      font-size: 30px;
+
+      span {
+        padding-right: 20px;
+      }
+    }
+
+    &-overview {
+      font-size: 20px;
+    }
+  }
+}

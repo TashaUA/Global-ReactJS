@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
 import Dialog from "../components/Dialog";
 import FormInput from "../components/FormInput";
 import FormSelect from "../components/FormSelect";
+import DialogNames from "../utils/constants";
 
 const genresOptions = {
     action: 'Action',
@@ -9,13 +10,11 @@ const genresOptions = {
     comedy: 'Comedy'
 };
 
-class AddEditMovie extends React.Component {
+export default function AddEditMovie(props) {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            open: false,
-            isEdit: !!props.entry,
+    const [isEdit, setIsEdit] = useState(!!props.entry);
+    const [movie, setMovie] = useState(
+        {
             id: 0,
             title: '',
             poster_path: '',
@@ -24,72 +23,59 @@ class AddEditMovie extends React.Component {
             genres: [],
             overview: '',
             runtime: '',
-        };
-    }
+        });
 
-    componentDidMount() {
-        const {entry = []} = this.props;
-        this.setState({...entry});
-    }
+    useEffect(() => {
+        const {entry = []} = props;
+        setMovie({...movie, ...entry});
+        setIsEdit(!!props.entry);
+    }, [props]);
 
-    static getDerivedStateFromProps(props, current_state) {
-        if (props.entry && props.entry.id && current_state.id !== props.entry.id) {
-            return {
-                ...props.entry,
-                isEdit: !!props.entry,
-            }
-        }
-        return null
-    }
-
-    onSubmit = (data) => {
-        return this.state.isEdit
+    const onSubmit = (data) => {
+        return isEdit
             ? updateUser(data)
             : createUser(id, data);
     };
 
-    createUser = (data) => {
+    const createUser = (data) => {
         return false;
     };
 
-    updateUser = (id, data) => {
+    const updateUser = (id, data) => {
         return false;
     };
 
-    handleInput = (event) => {
+    const handleInput = (event) => {
         const {value, name} = event.target;
 
-        this.setState({
+        setMovie({
+            ...movie,
             [name]: value
         });
     };
 
-    render() {
-        return this.props.openEdit ? (
-                <Dialog onClose={this.props.onCloseDialog}
-                        title={this.state.isEdit ? 'Edit movie' : 'Add movie'}>
+        return props.openEdit && (
+                <Dialog onClose={props.onCloseDialog}
+                        title={isEdit ? 'Edit movie' : 'Add movie'}>
                     <form className="form form__add-movie">
-                        <FormInput label="Title" name="title" value={this.state.title}
-                                   handleInput={this.handleInput}/>
-                        <FormInput label="Release Date" name="release__date" value={this.state.release_date}
-                                   type="date" handleInput={this.handleInput}/>
-                        <FormInput label="Movie url" name="poster_path" value={this.state.poster_path}
-                                   handleInput={this.handleInput}/>
-                        <FormSelect label="Genre" name="genres" current={this.state.genres[0]} options={genresOptions}
+                        <FormInput label="Title" name="title" value={movie.title}
+                                   handleInput={handleInput}/>
+                        <FormInput label="Release Date" name="release__date" value={movie.release_date}
+                                   type="date" handleInput={handleInput}/>
+                        <FormInput label="Movie url" name="poster_path" value={movie.poster_path}
+                                   handleInput={handleInput}/>
+                        <FormSelect label="Genre" name="genres" current={movie.genres && movie.genres[0]} options={genresOptions}
                                    />
-                        <FormInput label="Overview" name="overview" value={this.state.overview}
-                                   handleInput={this.handleInput}/>
-                        <FormInput label="Runtime" name="runtime" value={this.state.runtime}
-                                   handleInput={this.handleInput}/>
+                        <FormInput label="Overview" name="overview" value={movie.overview}
+                                   handleInput={handleInput}/>
+                        <FormInput label="Runtime" name="runtime" value={movie.runtime}
+                                   handleInput={handleInput}/>
                         <div className="form__actions">
-                            <a href="#" className="form__button form__button--reset" onClick={() => this.props.onCloseDialog('edit')}>Reset</a>
+                            <a href="#" className="form__button form__button--reset" onClick={() => props.onCloseDialog(DialogNames.EDIT)}>Reset</a>
                             <a href="#" className="form__button"
-                               onClick={this.onSubmit}>{this.state.isEdit ? 'Save' : 'Submit'}</a>
+                               onClick={onSubmit}>{isEdit ? 'Save' : 'Submit'}</a>
                         </div>
                     </form>
                 </Dialog>
-        ) : null;
-    }
+        );
 }
-
-export default AddEditMovie

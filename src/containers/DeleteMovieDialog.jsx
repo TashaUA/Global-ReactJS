@@ -1,30 +1,25 @@
 import React from "react";
 import Dialog from "../components/Dialog";
-import FormInput from "../components/FormInput";
-import FormSelect from "../components/FormSelect";
+import DialogNames from "../utils/constants";
 import PropTypes from "prop-types";
 
-class DeleteMovieDialog extends React.Component {
+export default function DeleteMovieDialog(props) {
 
-    onSubmit = (id) => {
+    const onSubmit = (id) => {
         return false;
     };
 
-    render() {
-        return this.props.openDelete ? (
-            <>
-                <Dialog onClose={() => this.props.onCloseDialog('delete')}
-                        title="Delete movie">
-                    <p>Are you sure you want to delete this movie?</p>
-                    <a href="#" className="button button--right"
-                       onClick={this.onSubmit}>Confirm</a>
-                </Dialog>
-            </>
-        ) : null;
-    }
+    return props.openDelete && (
+        <>
+            <Dialog onClose={() => props.onCloseDialog(DialogNames.DELETE)}
+                    title="Delete movie">
+                <p>Are you sure you want to delete this movie?</p>
+                <a href="#" className="button button--right"
+                   onClick={onSubmit}>Confirm</a>
+            </Dialog>
+        </>
+    );
 }
-
-export default DeleteMovieDialog
 
 DeleteMovieDialog.propTypes = {
     id: PropTypes.number,

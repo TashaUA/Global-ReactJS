@@ -5,7 +5,7 @@ import AddEditMovieDialog from "../containers/AddEditMovieDialog";
 
 export default function Header() {
 
-    const [openEdit, setOpenEdit] = useState(0);
+    const [openEdit, setOpenEdit] = useState(false);
 
     const handleClose = () => {
         setOpenEdit(false);
@@ -17,8 +17,10 @@ export default function Header() {
 
     return (
         <>
-            <a href="#" className="logo"><img src={img} alt="Netflix" /></a>
-            <Button onClick={openDialog} title="+ Add Movie"/>
+            <a href="#" className="logo"><img src={img} alt="Netflix"/></a>
+            <div className="add-movie">
+                <Button classModifier="button--grey" onClick={openDialog} title="+ Add Movie"/>
+            </div>
             <AddEditMovieDialog openEdit={!!openEdit} onCloseDialog={handleClose}/>
         </>
     );

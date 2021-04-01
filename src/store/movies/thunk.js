@@ -31,8 +31,9 @@ export const updateMovie = (data) => {
     return (dispatch) => {
         dispatch({ type: types.UPDATE_MOVIE });
         return axios.put(`${api}movies`, data)
+            .then((result) => result.data)
             .then((res) => {
-                dispatch(loadMovies());
+                dispatch({ type: types.SET_UPDATED_MOVIE, payload: res})
             })
             .catch(err => dispatch({ type: types.GET_MOVIES_FAILURE, err })
             );

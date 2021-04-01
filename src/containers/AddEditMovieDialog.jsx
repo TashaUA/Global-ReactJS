@@ -29,7 +29,7 @@ const AddEditMovie = (props) => {
         const newMovie = props.selectedMovie || initialState;
         setMovie({...movie, ...newMovie});
         setIsEdit(!!props.selectedMovie);
-    }, [props]);
+    }, [props.selectedMovie]);
 
     const onSubmit = () => {
         isEdit
@@ -39,9 +39,9 @@ const AddEditMovie = (props) => {
         props.closeDialog(constants.DialogNames.EDIT);
     };
 
-    const addMovie = (data) => {
-        delete movie.id;
-        props.addMovie(movie)
+    const addMovie = (movie) => {
+        const { id, ...rest } = movie;
+        props.addMovie(rest);
     };
 
 
@@ -97,9 +97,8 @@ const AddEditMovie = (props) => {
 };
 
 function mapStateToProps(state) {
-    const movies = selectors.getMovies(state);
 
-    return { moviesProp: movies,
+    return {
         dialogOpened: uiSelectors.isEditDialogOpened(state),
         selectedMovie: selectors.getSelectedMovie(state)}
 }

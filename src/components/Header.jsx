@@ -17,14 +17,13 @@ const Header = (props) => {
             <div className="add-movie">
                 <Button classModifier="button--grey" onClick={() => openDialog('edit')} title="+ Add Movie"/>
             </div>
-            <AddEditMovieDialog/>
         </>
     );
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        openDialog: (payload) => { dispatch(uiActions.openDialog(payload)); }
+        openDialog: (type) => { dispatch(uiActions.openDialog(type)); }
     };
 };
 

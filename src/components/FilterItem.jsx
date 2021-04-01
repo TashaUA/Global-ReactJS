@@ -6,18 +6,20 @@ import selectors from "../store/movies/selectors";
 import actions from "../store/movies/actions";
 
 const FilterItem = (props) => {
+    const {activeFilter, id, name} = props;
 
     const handleFilterMovies = (e, genre) => {
         e.preventDefault();
-        props.setActiveFilter(props.id);
+        props.setActiveFilter(id);
         if (genre === 'All')
             genre = '';
         props.filterMovies(genre);
     };
 
     return (
-        <a href="#" className={props.activeFilter === props.id ? 'nav-item nav-item--active' : 'nav-item'} onClick={(e) => handleFilterMovies(e, props.id)} key={props.id}>
-            {props.name}
+        <a href="#" className={activeFilter === id ? 'nav-item nav-item--active' : 'nav-item'}
+           onClick={(e) => handleFilterMovies(e, id)} key={id}>
+            {name}
         </a>
     );
 };

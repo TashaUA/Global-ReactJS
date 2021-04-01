@@ -14,6 +14,9 @@ export default function movies(state = initialState, action) {
             return {...state, selectedMovie: action.payload};
         case types.SET_ACTIVE_FILTER:
             return {...state, activeFilter: action.payload};
+        case types.SET_UPDATED_MOVIE:
+            return {...state, data: state.data.map(
+                        movie => movie.id === action.payload.id ? action.payload : movie)};
         default:
             return state;
     }

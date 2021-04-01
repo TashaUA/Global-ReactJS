@@ -16,7 +16,7 @@ const MoviesList = (props) => {
             <MoviesAmount amount={props.moviesProp.length}/>
             <ul className="movies-list">
                 {props.moviesProp.map((el) => (
-                    <MovieCard key={el.id} entry={el} onClick={props.onClick} handleOpenDialog={props.handleOpenDialog}/>
+                    <MovieCard key={el.id} entry={el} onClick={props.onClick}/>
                 ))}
             </ul>
         </>

@@ -2,51 +2,52 @@ import React, { useState, useEffect } from 'react';
 import Dialog from "../components/Dialog";
 import FormInput from "../components/FormInput";
 import FormSelect from "../components/FormSelect";
-import DialogNames from "../utils/constants";
+import constants from "../utils/constants";
+import selectors from '../store/movies/selectors';
+import uiSelectors from '../store/ui/selectors';
+import {addMovie, updateMovie} from "../store/movies/thunk";
+import uiActions from "../store/ui/actions";
+import {connect} from "react-redux";
+import actions from "../store/movies/actions";
 
-const genresOptions = {
-    action: 'Action',
-    adventure: 'Adventure',
-    comedy: 'Comedy'
-};
+const AddEditMovie = (props) => {
 
-export default function AddEditMovie(props) {
+    const  initialState = {
+        id: 0,
+        title: '',
+        poster_path: '',
+        release_date: '',
+        genres: [],
+        overview: '',
+        runtime: 0,
+    };
 
-    const [isEdit, setIsEdit] = useState(!!props.entry);
-    const [movie, setMovie] = useState(
-        {
-            id: 0,
-            title: '',
-            poster_path: '',
-            release_date: '',
-            movie_url: '',
-            genres: [],
-            overview: '',
-            runtime: '',
-        });
+    const [isEdit, setIsEdit] = useState(!!props.selectedMovie);
+    const [movie, setMovie] = useState(initialState);
 
     useEffect(() => {
-        const {entry = []} = props;
-        setMovie({...movie, ...entry});
-        setIsEdit(!!props.entry);
-    }, [props]);
+        const newMovie = props.selectedMovie || initialState;
+        setMovie({...movie, ...newMovie});
+        setIsEdit(!!props.selectedMovie);
+    }, [props.selectedMovie]);
 
-    const onSubmit = (data) => {
-        return isEdit
-            ? updateUser(data)
-            : createUser(id, data);
+    const onSubmit = () => {
+        isEdit
+            ? props.updateMovie(movie)
+            : addMovie(movie);
+        props.selectMovie(false);
+        props.closeDialog(constants.DialogNames.EDIT);
     };
 
-    const createUser = (data) => {
-        return false;
+    const addMovie = (movie) => {
+        const { id, ...rest } = movie;
+        props.addMovie(rest);
     };
 
-    const updateUser = (id, data) => {
-        return false;
-    };
 
     const handleInput = (event) => {
-        const {value, name} = event.target;
+        let {value, name, type} = event.target;
+        (type === 'number') ? value = Number(value) : '';
 
         setMovie({
             ...movie,
@@ -54,28 +55,61 @@ export default function AddEditMovie(props) {
         });
     };
 
-        return props.openEdit && (
-                <Dialog onClose={props.onCloseDialog}
+    const handleSelect = (event) => {
+        let {value, name} = event.target;
+        const newEl = constants.Genres[value];
+        setMovie({
+            ...movie,
+            [name]: [...movie.genres, newEl]
+        });
+    };
+
+    const reset = () => {
+        props.selectMovie(false);
+        props.closeDialog(constants.DialogNames.EDIT);
+    };
+
+        return props.dialogOpened && (
+                <Dialog type={constants.DialogNames.EDIT}
                         title={isEdit ? 'Edit movie' : 'Add movie'}>
                     <form className="form form__add-movie">
                         <FormInput label="Title" name="title" value={movie.title}
                                    handleInput={handleInput}/>
-                        <FormInput label="Release Date" name="release__date" value={movie.release_date}
+                        <FormInput label="Release Date" name="release_date" value={movie.release_date}
                                    type="date" handleInput={handleInput}/>
                         <FormInput label="Movie url" name="poster_path" value={movie.poster_path}
                                    handleInput={handleInput}/>
-                        <FormSelect label="Genre" name="genres" current={movie.genres && movie.genres[0]} options={genresOptions}
-                                   />
+                        <FormSelect label="Genre" name="genres" value={movie.genres && movie.genres[[movie.genres.length-1]]}
+                                    options={constants.Genres}
+                                    handleSelect={handleSelect}/>
                         <FormInput label="Overview" name="overview" value={movie.overview}
                                    handleInput={handleInput}/>
-                        <FormInput label="Runtime" name="runtime" value={movie.runtime}
+                        <FormInput label="Runtime" name="runtime" type="number" value={movie.runtime}
                                    handleInput={handleInput}/>
                         <div className="form__actions">
-                            <a href="#" className="form__button form__button--reset" onClick={() => props.onCloseDialog(DialogNames.EDIT)}>Reset</a>
+                            <a href="#" className="form__button form__button--reset" onClick={reset}>Reset</a>
                             <a href="#" className="form__button"
                                onClick={onSubmit}>{isEdit ? 'Save' : 'Submit'}</a>
                         </div>
                     </form>
                 </Dialog>
         );
+};
+
+function mapStateToProps(state) {
+
+    return {
+        dialogOpened: uiSelectors.isEditDialogOpened(state),
+        selectedMovie: selectors.getSelectedMovie(state)}
 }
+
+const mapDispatchToProps = dispatch => {
+    return {
+        addMovie: (payload) => dispatch(addMovie(payload)),
+        updateMovie: (payload) => dispatch(updateMovie(payload)),
+        selectMovie: (payload) => dispatch(actions.selectMovie(payload)),
+        closeDialog: (payload) => dispatch(uiActions.closeDialog(payload)),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddEditMovie);

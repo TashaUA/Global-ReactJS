@@ -2,13 +2,16 @@ import React from "react";
 import PropTypes from "prop-types";
 import defaultImg from "../images/coming-soon.png";
 import Button from "./Button";
+import uiActions from "../store/ui/actions";
+import actions from "../store/movies/actions";
+import {connect} from "react-redux";
 
-export default function MovieCard(props) {
+const MovieCard = (props) => {
     const { poster_path, title, release_date, genres, id } = props.entry;
 
     const openDialog = (type) => {
-        const { entry, handleOpenDialog } = props;
-        handleOpenDialog({ entry, type });
+        props.selectMovie(props.entry);
+        props.openDialog(type);
     };
 
     const onClick = (id) => {
@@ -17,8 +20,8 @@ export default function MovieCard(props) {
     };
 
     return (
-        <li className="movie-card" onClick={() => onClick(id)}>
-            <img src={poster_path ? poster_path : defaultImg} />
+        <li className="movie-card">
+            <img onClick={() => onClick(id)} src={poster_path ? poster_path : defaultImg} />
             <p className="movie-card__title">
                 <span>{title}</span>
                 <span>{release_date.split('-')[0]}</span>
@@ -30,7 +33,7 @@ export default function MovieCard(props) {
             </p>
         </li>
     )
-}
+};
 
 MovieCard.propTypes = {
     entry: PropTypes.shape({
@@ -41,3 +44,12 @@ MovieCard.propTypes = {
         genres: PropTypes.array,
     })
 };
+
+const mapDispatchToProps = dispatch => {
+    return {
+        openDialog: (payload) => { dispatch(uiActions.openDialog(payload)); },
+        selectMovie: (payload) => { dispatch(actions.selectMovie(payload)); }
+    };
+};
+
+export default connect(null, mapDispatchToProps)(MovieCard);

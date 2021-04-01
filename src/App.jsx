@@ -3,29 +3,18 @@ import React, {useState, useCallback} from "react";
 import Header from "./components/Header";
 import SearchBox from "./containers/SearchBox";
 import Sort from "./containers/Sort";
-import Navigation from "./containers/Navigation";
+import Filter from "./containers/Filter";
 import MoviesList from "./containers/MoviesList";
 import Footer from "./components/Footer";
 import ErrorBoundary from "./utils/ErrorBoundary"
 import MoviePage from "./containers/MoviePage"
 import AddEditMovieDialog from "./containers/AddEditMovieDialog";
-import DialogNames from "./utils/constants";
 import DeleteMovieDialog from "./containers/DeleteMovieDialog";
+import { Provider } from "react-redux";
+import { store } from "store/index.js"
 
 export default function App() {
-    const [entry, setEntry] = useState({});
-    const [openEdit, setOpenEdit] = useState(false);
-    const [openDelete, setOpenDelete] = useState(false);
     const [selectedMovie, setSelectedMovie] = useState(0);
-
-    const handleOpenDialog = useCallback(({entry, type}) => {
-        setEntry({...entry});
-        (type === DialogNames.EDIT) ? setOpenEdit(true) : setOpenDelete(true);
-    }, []);
-
-    const handleClose = useCallback((type) => {
-        (type === DialogNames.EDIT) ? setOpenEdit(false) : setOpenDelete(false);
-    },[]);
 
     const onCLick = useCallback((id) => {
         setSelectedMovie(id);
@@ -33,29 +22,27 @@ export default function App() {
     });
 
     return (
-        <div className="App">
-            <div className="top-section">
-                <Header />
-                {selectedMovie ?
-                    <MoviePage selectedMovie={selectedMovie} handleOpenDialog={handleOpenDialog}/>
-                    :
-                    <ErrorBoundary>
-                        <SearchBox/>
-                    </ErrorBoundary>
-                }
-            </div>
-            <div className="nav-container">
-                <Navigation />
-                <ErrorBoundary>
-                    <Sort />
-                </ErrorBoundary>
-            </div>
+        <Provider store={store}>
             <ErrorBoundary>
-                <MoviesList onClick={onCLick} handleOpenDialog={handleOpenDialog}/>
+                <div className="App">
+                    <div className="top-section">
+                        <Header/>
+                        {selectedMovie ?
+                            <MoviePage selectedMovie={selectedMovie}/>
+                            :
+                            <SearchBox/>
+                        }
+                    </div>
+                    <div className="nav-container">
+                        <Filter/>
+                        <Sort/>
+                    </div>
+                    <MoviesList onClick={onCLick}/>
+                    <Footer/>
+                    <AddEditMovieDialog/>
+                    <DeleteMovieDialog/>
+                </div>
             </ErrorBoundary>
-            <Footer/>
-            <AddEditMovieDialog entry={entry} openEdit={openEdit} onCloseDialog={() => handleClose(DialogNames.EDIT)}/>
-            <DeleteMovieDialog entry={entry} openDelete={openDelete} onCloseDialog={() => handleClose(DialogNames.DELETE)}/>
-        </div>
+        </Provider>
     );
 }

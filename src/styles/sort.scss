@@ -30,7 +30,7 @@
     }
 
     /* emulate visibility onFocus */
-    &:focus &-dropdown {
+    &.opened &-dropdown {
       opacity: 1;
       visibility: visible;
     }

@@ -33,7 +33,7 @@ const MovieExtendedCard = (props) => {
             </div>
         </div>
     )
-}
+};
 
 MovieExtendedCard.propTypes = {
     entry: PropTypes.shape({

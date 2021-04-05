@@ -22,6 +22,12 @@
       border-radius: 3px;
       outline: none;
     }
+
+    &--error {
+      input, select {
+        border: 1px solid $brand-primary;
+      }
+    }
   }
 
   &__actions {
@@ -46,5 +52,11 @@
       border: 1px solid $brand-primary;
       color: $brand-primary;
     }
+  }
+
+  &__error {
+    color: $brand-primary;
+    display: block;
+    padding: 5px 0 0;
   }
 }

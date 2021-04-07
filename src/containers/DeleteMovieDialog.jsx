@@ -1,13 +1,13 @@
 import React from "react";
-import Dialog from "../components/Dialog";
-import constants from "../utils/constants";
-import PropTypes from "prop-types";
-import {deleteMovie} from "../store/movies/thunk";
 import {connect} from "react-redux";
+import PropTypes from "prop-types";
+import constants from "../utils/constants";
+import Dialog from "../components/Dialog";
+import actions from "../store/movies/actions";
+import selectors from "../store/movies/selectors";
+import {deleteMovie} from "../store/movies/thunk";
 import uiActions from "../store/ui/actions";
 import uiSelectors from "../store/ui/selectors";
-import selectors from "../store/movies/selectors";
-import actions from "../store/movies/actions";
 
 const DeleteMovieDialog = (props) => {
 

@@ -1,14 +1,14 @@
 import React from 'react';
-import AddEditForm from "../components/Form/AddEditForm";
-import constants from "../utils/constants";
-import selectors from '../store/movies/selectors';
-import uiSelectors from '../store/ui/selectors';
-import {addMovie, updateMovie} from "../store/movies/thunk";
-import uiActions from "../store/ui/actions";
 import {connect} from "react-redux";
-import actions from "../store/movies/actions";
 import {withFormik} from "formik";
 import * as Yup from "Yup";
+import constants from "../utils/constants";
+import AddEditForm from "../components/Form/AddEditForm";
+import actions from "../store/movies/actions";
+import selectors from '../store/movies/selectors';
+import {addMovie, updateMovie} from "../store/movies/thunk";
+import uiSelectors from '../store/ui/selectors';
+import uiActions from "../store/ui/actions";
 
 const today = new Date();
 const validationSchema = Yup.object({

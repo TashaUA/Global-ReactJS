@@ -1,17 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-export default function FormSelect({label, name, value, options, handleSelect}) {
+export default function FormSelect({label, name, errors, value, options, onChange}) {
 
     return (
         <>
-            <p className="form__field">
+            <p className={errors ? 'form__field form__field--error' : 'form__field'}>
                 <label className="form__field-label">{label}</label>
-                <select name={name} value={value} onChange={handleSelect} className="form__field-select">
+                <select multiple name={name} value={value} onChange={onChange} className="form__field-select">
                     {Object.entries(options).map(([k, v]) => (
                         <option key={k} value={v}>{v}</option>
                     ))}
                 </select>
+                {errors ? (<span className="form__error">{errors}</span>) : null}
             </p>
         </>
     )

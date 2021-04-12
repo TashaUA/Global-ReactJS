@@ -15,6 +15,17 @@ export const loadMovies = () => {
     };
 };
 
+export const getMovie = (id) => {
+    return (dispatch) => {
+        dispatch({ type: types.GET_MOVIE });
+        return axios.get(`${api}movies/${id}`)
+            .then(res => {
+                dispatch({ type: types.SELECT_MOVIE, payload: res.data})})
+            .catch(err => dispatch({ type: types.GET_MOVIES_FAILURE, err })
+            );
+    };
+};
+
 export const addMovie = (data) => {
     return (dispatch) => {
         dispatch({ type: types.ADD_MOVIE });
@@ -61,6 +72,18 @@ export const filterMovies = (genre) => {
                 limit: 40,
             }
         })
+            .then((result) => result.data)
+            .then(res => {
+                dispatch({ type: types.SET_MOVIES, payload: res.data})})
+            .catch(err => dispatch({ type: types.GET_MOVIES_FAILURE, err })
+            );
+    };
+};
+
+export const searchMovies = (query) => {
+    return (dispatch) => {
+        dispatch({ type: types.SEARCH_MOVIES });
+        return axios.get(`${api}movies?search=${query}&searchBy=title&limit=40`)
             .then((result) => result.data)
             .then(res => {
                 dispatch({ type: types.SET_MOVIES, payload: res.data})})

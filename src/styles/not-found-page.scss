@@ -1,0 +1,26 @@
+.page-not-found {
+  background: $grey-darker;
+
+  .logo {
+    display: flex;
+    padding: 50px 0 0;
+  }
+
+  &__header {
+    font-size: 40px;
+  }
+
+  &__404 {
+    font-size: 180px;
+    color: $white;
+    margin: 0.5em;
+  }
+
+  &__back-home {
+    border: 2px solid $brand-primary;
+    background: $grey-darker;
+    font-size: 30px;
+    padding: 10px 30px;
+    margin-bottom: 50px;
+  }
+}

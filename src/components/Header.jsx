@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
+import React from 'react';
+import {connect} from "react-redux";
+import { Link } from "react-router-dom";
 import Button from "./Button";
 import img from "../images/logo.png";
-import AddEditMovieDialog from "../containers/AddEditMovieDialog";
 import uiActions from "../store/ui/actions";
-import {connect} from "react-redux";
 
 const Header = (props) => {
 
@@ -13,7 +13,7 @@ const Header = (props) => {
 
     return (
         <>
-            <a href="#" className="logo"><img src={img} alt="Netflix"/></a>
+            <Link to="/" className="logo"><img src="/images/logo.png" alt="Netflix"/></Link>
             <div className="add-movie">
                 <Button classModifier="button--grey" onClick={() => openDialog('edit')} title="+ Add Movie"/>
             </div>

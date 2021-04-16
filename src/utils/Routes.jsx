@@ -13,7 +13,7 @@ export default function Routes() {
             <Route exact path="/">
                 <SearchPage/>
             </Route>
-            <Route path="/search">
+            <Route path="/search/:query">
                 <SearchPage/>
             </Route>
             <Route path="*">

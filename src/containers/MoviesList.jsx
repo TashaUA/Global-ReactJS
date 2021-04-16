@@ -1,15 +1,14 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import {useLocation} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import MovieCard from "../components/MovieCard";
 import MoviesAmount from "../components/MoviesAmount";
-import {searchMovies, loadMovies} from '../store/movies/thunk';
+import { searchMovies, loadMovies } from '../store/movies/thunk';
 import selectors from '../store/movies/selectors';
 
 const MoviesList = (props) => {
 
-    const useQuery = () => new URLSearchParams(useLocation().search);
-    const query = useQuery().get('query');
+    const { query } = useParams();
 
     useEffect(() => {
         if (query) {

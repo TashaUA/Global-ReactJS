@@ -1,10 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
+import {connect} from "react-redux";
+import { Link } from "react-router-dom";
 import defaultImg from "../images/coming-soon.png";
 import Button from "./Button";
 import uiActions from "../store/ui/actions";
 import actions from "../store/movies/actions";
-import {connect} from "react-redux";
 
 const MovieCard = (props) => {
     const { poster_path, title, release_date, genres, id } = props.entry;
@@ -14,14 +15,9 @@ const MovieCard = (props) => {
         props.openDialog(type);
     };
 
-    const onClick = (id) => {
-        const { onClick } = props;
-        onClick(id);
-    };
-
     return (
         <li className="movie-card">
-            <img onClick={() => onClick(id)} src={poster_path ? poster_path : defaultImg} />
+            <Link to={"/film/" + id}><img src={poster_path ? poster_path : defaultImg} /></Link>
             <p className="movie-card__title">
                 <span>{title}</span>
                 <span>{release_date.split('-')[0]}</span>

@@ -18,5 +18,12 @@
     padding: 20px;
     box-sizing: border-box;
     font-size: 16px;
+
+    &--empty {
+      height: 200px;
+      font-size: 30px;
+      letter-spacing: 1px;
+      line-height: 200px;
+    }
   }
 }

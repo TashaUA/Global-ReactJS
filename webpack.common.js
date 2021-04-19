@@ -29,9 +29,11 @@ module.exports = {
                                 ['@babel/preset-env', {
                                     "targets": "defaults"
                                 }],
-                                '@babel/preset-react'
+                                '@babel/preset-react',
+                                '@babel/preset-flow'
                             ],
-                            plugins: ["@babel/plugin-proposal-class-properties"]
+                            plugins: ["@babel/plugin-proposal-class-properties",
+                                "@babel/plugin-transform-runtime"]
                         }
                     }]
                 },

@@ -1,12 +1,10 @@
-import axios from 'axios';
 import types from "./types";
-
-const api = 'http://127.0.0.1:4000/';
+import { api } from '../api';
 
 export const loadMovies = () => {
     return (dispatch) => {
         dispatch({ type: types.GET_MOVIES });
-        return axios.get(`${api}movies?limit=40`)
+        return api.get('/movies?limit=40')
             .then((result) => result.data)
             .then(res => {
                 dispatch({ type: types.SET_MOVIES, payload: res.data})})
@@ -18,7 +16,7 @@ export const loadMovies = () => {
 export const getMovie = (id) => {
     return (dispatch) => {
         dispatch({ type: types.GET_MOVIE });
-        return axios.get(`${api}movies/${id}`)
+        return api.get(`/movies/${id}`)
             .then(res => {
                 dispatch({ type: types.SELECT_MOVIE, payload: res.data})})
             .catch(err => dispatch({ type: types.GET_MOVIES_FAILURE, err })
@@ -29,7 +27,7 @@ export const getMovie = (id) => {
 export const addMovie = (data) => {
     return (dispatch) => {
         dispatch({ type: types.ADD_MOVIE });
-        return axios.post(`${api}movies`, data)
+        return api.post(`/movies`, data)
             .then((res) => {
                 dispatch(loadMovies());
             })
@@ -41,7 +39,7 @@ export const addMovie = (data) => {
 export const updateMovie = (data) => {
     return (dispatch) => {
         dispatch({ type: types.UPDATE_MOVIE });
-        return axios.put(`${api}movies`, data)
+        return api.put(`/movies`, data)
             .then((result) => result.data)
             .then((res) => {
                 dispatch({ type: types.SET_UPDATED_MOVIE, payload: res})
@@ -54,7 +52,7 @@ export const updateMovie = (data) => {
 export const deleteMovie = (id) => {
     return (dispatch) => {
         dispatch({ type: types.DELETE_MOVIE });
-        return axios.delete(`${api}movies/${id}`)
+        return api.delete(`/movies/${id}`)
             .then((res) => {
                 dispatch(loadMovies());
             })
@@ -66,7 +64,7 @@ export const deleteMovie = (id) => {
 export const filterMovies = (genre) => {
     return (dispatch) => {
         dispatch({ type: types.FILTER_MOVIES });
-        return axios.get(`${api}movies/`, {
+        return api.get('/movies/', {
             params: {
                 filter: genre,
                 limit: 40,
@@ -83,7 +81,7 @@ export const filterMovies = (genre) => {
 export const searchMovies = (query) => {
     return (dispatch) => {
         dispatch({ type: types.SEARCH_MOVIES });
-        return axios.get(`${api}movies?search=${query}&searchBy=title&limit=40`)
+        return api.get(`/movies?search=${query}&searchBy=title&limit=40`)
             .then((result) => result.data)
             .then(res => {
                 dispatch({ type: types.SET_MOVIES, payload: res.data})})
@@ -95,7 +93,7 @@ export const searchMovies = (query) => {
 export const sortMovies = (type) => {
     return (dispatch) => {
         dispatch({ type: types.SORT_MOVIES });
-        return axios.get(`${api}movies/`, {
+        return api.get(`/movies/`, {
             params: {
                 sortBy: type,
                 sortOrder: 'desc',

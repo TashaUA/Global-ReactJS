@@ -6,8 +6,8 @@ export default function FormSelect({label, name, errors, value, options, onChang
     return (
         <>
             <p className={errors ? 'form__field form__field--error' : 'form__field'}>
-                <label className="form__field-label">{label}</label>
-                <select multiple name={name} value={value} onChange={onChange} className="form__field-select">
+                <label className="form__field-label" htmlFor={name}>{label}</label>
+                <select multiple name={name} id={name} value={value} onChange={onChange} className="form__field-select">
                     {Object.entries(options).map(([k, v]) => (
                         <option key={k} value={v}>{v}</option>
                     ))}

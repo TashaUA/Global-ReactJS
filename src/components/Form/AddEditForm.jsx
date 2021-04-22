@@ -8,24 +8,23 @@ export default function AddEditForm(props) {
 
     const isEdit = props.selectedMovie && !!props.selectedMovie.id;
 
-    const reset = () => {
+    const reset = (e) => {
+        e.preventDefault();
         props.selectMovie(false);
         props.closeDialog(constants.DialogNames.EDIT);
     };
 
     const {
         values,
-        touched,
         errors,
         handleChange,
-        handleBlur,
         handleSubmit,
     } = props;
 
     return props.dialogOpened && (
         <Dialog type={constants.DialogNames.EDIT}
                 title={isEdit ? 'Edit movie' : 'Add movie'}>
-            <form className="form form__add-movie">
+            <form onSubmit={handleSubmit} className="form form__add-movie" data-testid="form">
                 <FormInput label="Title" name="title" errors={errors.title} value={values.title}
                            onChange={handleChange}/>
                 <FormInput label="Release Date" name="release_date" errors={errors.release_date}
@@ -42,8 +41,8 @@ export default function AddEditForm(props) {
                            onChange={handleChange}/>
                 <div className="form__actions">
                     <a href="#" className="form__button form__button--reset" onClick={reset}>Reset</a>
-                    <a href="#" className="form__button"
-                       onClick={handleSubmit}>{isEdit ? 'Save' : 'Submit'}</a>
+                    <button type="submit" className="form__button"
+                       >{isEdit ? 'Save' : 'Submit'}</button>
                 </div>
             </form>
         </Dialog>

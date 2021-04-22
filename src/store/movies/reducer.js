@@ -1,18 +1,9 @@
 import types from "./types";
-
-const  initialMovieState = {
-    id: 0,
-    title: '',
-    poster_path: '',
-    release_date: '',
-    genres: [],
-    overview: '',
-    runtime: 0,
-};
+import constants from "../../utils/constants";
 
 const initialState = {
     data: [],
-    selectedMovie: initialMovieState,
+    selectedMovie: constants.initialMovieState,
     activeFilter: 'All',
 };
 
@@ -21,7 +12,7 @@ export default function movies(state = initialState, action) {
         case types.SET_MOVIES:
             return {...state, data: action.payload };
         case types.SELECT_MOVIE:
-            return {...state, selectedMovie: action.payload ? action.payload : initialMovieState};
+            return {...state, selectedMovie: action.payload ? action.payload : constants.initialMovieState};
         case types.SET_ACTIVE_FILTER:
             return {...state, activeFilter: action.payload};
         case types.SET_UPDATED_MOVIE:

@@ -2,12 +2,12 @@ import React, { useRef } from "react";
 import PropTypes from "prop-types";
 import uiActions from "../store/ui/actions";
 import actions from "../store/movies/actions";
-import useClickOutsideDialog from '../utils/hooks';
 import {connect} from "react-redux";
+import useClickOutsideDialog from '../utils/hooks';
 
 const Dialog = (props) => {
     const dialogRef = useRef(null);
-    //useClickOutsideDialog(dialogRef, () => onClose());
+    useClickOutsideDialog(dialogRef, () => onClose());
 
     const onClose = () => {
         props.selectMovie(false);
@@ -16,10 +16,10 @@ const Dialog = (props) => {
 
     return (
         <div className="dialog">
-            <div className="dialog__container" ref={dialogRef}>
+            <div className="dialog__container" data-testid="dialog-container" ref={dialogRef}>
                 <h3 className="dialog__title">{props.title}</h3>
                 <div className="dialog__content">{props.children}</div>
-                <div className="dialog__close" onClick={onClose}></div>
+                <a href="" className="dialog__close" onClick={onClose}>Close</a>
             </div>
         </div>
     );

@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
-import MovieCard from "../components/MovieCard";
-import MoviesAmount from "../components/MoviesAmount";
 import { searchMovies, loadMovies } from '../store/movies/thunk';
 import selectors from '../store/movies/selectors';
+import MovieCard from "../components/MovieCard";
+import MoviesAmount from "../components/MoviesAmount";
 
 const MoviesList = (props) => {
 

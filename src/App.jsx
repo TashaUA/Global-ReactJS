@@ -3,14 +3,14 @@ import React from "react";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import ErrorBoundary from "./utils/ErrorBoundary"
-import { store } from "store/index.js"
 import Routes from "./utils/Routes";
+import { hot } from "react-hot-loader";
 
-export default function App() {
+const App = ({Router, location, context, store}) => {
 
     return (
         <Provider store={store}>
-            <Router history="">
+            <Router location={location} context={context}>
             <ErrorBoundary>
                 <div className="App">
                         <Routes/>
@@ -19,4 +19,6 @@ export default function App() {
             </Router>
         </Provider>
     );
-}
+};
+
+export default hot(module)(App);

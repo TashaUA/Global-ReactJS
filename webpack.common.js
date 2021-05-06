@@ -1,22 +1,20 @@
 const path = require("path");
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const LoadablePlugin = require('@loadable/webpack-plugin');
 
 module.exports = {
-        entry: {
-            app: './src/index.jsx',
-        },
+        mode: process.env.NODE_ENV,
         output: {
-            path: path.resolve(__dirname, 'dist'),
-            filename: "bundle.js",
-            publicPath: '/'
+            path: path.resolve(__dirname, './dist'),
+            filename: "js/[name].js",
+            publicPath: "/"
         },
         resolve: {
             extensions: ['.js', '.jsx'],
-            modules: [path.resolve(__dirname, './src'), 'node_modules'],
+            alias: {
+                'react-dom': '@hot-loader/react-dom',
+            },
         },
-        watch: false,
         module: {
             rules: [
                 {
@@ -33,7 +31,9 @@ module.exports = {
                                 '@babel/preset-flow'
                             ],
                             plugins: ["@babel/plugin-proposal-class-properties",
-                                "@babel/plugin-transform-runtime"]
+                                "@babel/plugin-transform-runtime",
+                                "@babel/plugin-syntax-dynamic-import"
+                                ]
                         }
                     }]
                 },
@@ -62,8 +62,10 @@ module.exports = {
             ]
         },
         plugins: [
-            new CleanWebpackPlugin(),
-            new HtmlWebpackPlugin({template: 'src/index.html'}),
-            new MiniCssExtractPlugin(),
-        ]
+            new MiniCssExtractPlugin({
+                    filename: '[name].css'
+                }
+            ),
+            new LoadablePlugin()
+        ].filter(Boolean)
 };

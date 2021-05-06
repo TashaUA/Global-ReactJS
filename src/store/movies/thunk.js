@@ -1,5 +1,6 @@
 import types from "./types";
 import { api } from '../api';
+import { redux } from 'react-redux';
 
 export const loadMovies = () => {
     return (dispatch) => {

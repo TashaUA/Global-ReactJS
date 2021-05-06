@@ -1,9 +1,10 @@
-import React from "react";
+import React from 'react';
+import loadable from '@loadable/component'
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Sort from "../containers/Sort";
 import Filter from "../containers/Filter";
-import MoviesList from "../containers/MoviesList";
+const MoviesList = loadable(() => import(/* webpackChunkName: "MoviesList", webpackPreload: true */ '../containers/MoviesList'));
 import AddEditMovieDialog from "./AddEditMovieDialog";
 import DeleteMovieDialog from "./DeleteMovieDialog";
 
@@ -19,7 +20,7 @@ export default function MainLayout(props) {
                 <Filter/>
                 <Sort/>
             </div>
-            <MoviesList/>
+            <MoviesList fallback={<div>Loading...</div>}/>
             <Footer/>
             <AddEditMovieDialog/>
             <DeleteMovieDialog/>

@@ -1,11 +1,9 @@
-import {useCallback} from "react";
-import DialogNames from "../../utils/constants";
-import types from "../movies/types";
-import axios from "axios";
+import types from '../movies/types';
 
-export const closeDialog = (type) => {
-    return (dispatch) => {
-        dispatch({ type: types.CLOSE_DIALOG });
+export const closeDialog = () => (dispatch) => {
+  dispatch({ type: types.CLOSE_DIALOG });
+};
 
-    };
+export default {
+  closeDialog,
 };

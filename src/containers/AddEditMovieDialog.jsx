@@ -33,6 +33,7 @@ const handleAddMovie = (movie, props) => {
     props.addMovie(rest);
 };
 
+// PATTERN HOC
 const EnhancedAddEditForm = withFormik({
     enableReinitialize: true,
     mapPropsToValues: (props) => props.selectedMovie,

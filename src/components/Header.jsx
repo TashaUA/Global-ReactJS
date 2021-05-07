@@ -13,7 +13,7 @@ const Header = (props) => {
 
     return (
         <>
-            <Link to="/" className="logo"><img src="/images/logo.png" alt="Netflix"/></Link>
+            <Link to="/" className="logo"><img src="/images/logo.png" width="193" height="30" alt="Netflix"/></Link>
             <div className="add-movie">
                 <Button classModifier="button--grey" onClick={() => openDialog('edit')} title="+ Add Movie"/>
             </div>

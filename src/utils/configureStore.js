@@ -1,14 +1,8 @@
 import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import rootReducer from '../store/reducer';
-import thunk from "redux-thunk";
 
-export default (initialState) => {
-    //const store =
-    return createStore(rootReducer, initialState, applyMiddleware(thunk));
-
-   /* sagaMiddleware.run(rootSaga);
-    store.runSaga = () => sagaMiddleware.run(rootSaga);
-    store.close = () => store.dispatch(END);*/
-
-    //return store;
-};
+export default (initialState) => createStore(rootReducer, initialState, (process.env.NODE_ENV === 'production')
+  ? applyMiddleware(thunk)
+  : composeWithDevTools(applyMiddleware(thunk)));

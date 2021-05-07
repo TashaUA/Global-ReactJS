@@ -1,16 +1,16 @@
-import React from "react";
+import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { StaticRouter, matchPath } from 'react-router-dom';
-import path from "path";
-import App from "./App";
+import path from 'path';
+import { ChunkExtractor } from '@loadable/server';
+import App from './App';
 import { searchMovies, getMovie } from './store/movies/thunk';
 import configureStore from './utils/configureStore';
-import MoviesList from "./containers/MoviesList";
-import MovieExtendedCard from "./components/MovieExtendedCard";
-import { ChunkExtractor } from '@loadable/server';
+import MoviesList from './containers/MoviesList';
+import MovieExtendedCard from './components/MovieExtendedCard';
 
 function renderHTML(html, preloadedState) {
-    return `
+  return `
       <!doctype html>
       <html>
         <head>
@@ -32,62 +32,59 @@ function renderHTML(html, preloadedState) {
 }
 
 const routes = [
-    {
-        path: "/search/:query",
-        component: MoviesList,
-        fetchInitialData: (dispatch, query) => dispatch(searchMovies(query)),
-    },
-    {
-        path: "/film/:id",
-        component: MovieExtendedCard,
-        fetchInitialData: (dispatch, id) => dispatch(getMovie(id)),
-    },
+  {
+    path: '/search/:query',
+    component: MoviesList,
+    fetchInitialData: (dispatch, query) => dispatch(searchMovies(query)),
+  },
+  {
+    path: '/film/:id',
+    component: MovieExtendedCard,
+    fetchInitialData: (dispatch, id) => dispatch(getMovie(id)),
+  },
 ];
 
 export default function serverRenderer() {
-    return (req, res) => {
+  return (req, res) => {
+    const store = configureStore();
+    // This context object contains the results of the render
+    const context = {};
 
-        const store = configureStore();
-        // This context object contains the results of the render
-        const context = {};
+    const renderRoot = () => (
+      <App
+        context={context}
+        location={req.url}
+        Router={StaticRouter}
+        store={store}
+      />
+    );
 
-        const renderRoot = () => (
-            <App
-                context={context}
-                location={req.url}
-                Router={StaticRouter}
-                store={store}
-            />
-        );
+    const activeRoute = routes.find((route) => matchPath(req.url, route)) || {};
 
-        const activeRoute = routes.find( route => matchPath(req.url, route) ) || {};
+    const { url } = req;
+    const n = url.lastIndexOf('/');
+    const params = url.substring(n + 1);
 
-        const url = req.url;
-        var n = url.lastIndexOf('/');
-        var params = url.substring(n + 1);
+    const p = activeRoute.fetchInitialData
+      ? activeRoute.fetchInitialData(store.dispatch, params)
+      : Promise.resolve();
 
-        const _promise = activeRoute.fetchInitialData
-            ? activeRoute.fetchInitialData(store.dispatch, params)
-            : Promise.resolve();
+    p.then(() => {
+      const statsFile = path.resolve(__dirname, '../loadable-stats.json');
+      const extractor = new ChunkExtractor({ statsFile });
+      const jsx = extractor.collectChunks(renderRoot());
+      const htmlString = renderToString(jsx);
 
-        _promise.then(() => {
-            const statsFile = path.resolve(__dirname, '../loadable-stats.json');
-            const extractor = new ChunkExtractor({ statsFile });
-            const jsx = extractor.collectChunks(renderRoot());
-            const htmlString = renderToString(jsx);
-
-            if (context.url) {
-                res.writeHead(302, {
-                    Location: context.url,
-                });
-                res.end();
-                return;
-            }
-
-            const preloadedState = store.getState();
-            res.send(renderHTML(htmlString, preloadedState));
+      if (context.url) {
+        res.writeHead(302, {
+          Location: context.url,
         });
+        res.end();
+        return;
+      }
 
-    };
+      const preloadedState = store.getState();
+      res.send(renderHTML(htmlString, preloadedState));
+    });
+  };
 }
-
